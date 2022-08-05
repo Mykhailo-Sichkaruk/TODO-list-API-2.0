@@ -5,7 +5,8 @@
   "main": "/src/app.ts",
   "scripts": {
     "test": "jest",
-    "dev": "tsnd --respawn --transpile-only --exit-child src/app.ts"
+    "dev": "tsnd --respawn --transpile-only --exit-child src/app.ts",
+    "ts": "ts-node --files src/app.ts"
   },
   "keywords": [
     "todo-list",
@@ -15,9 +16,11 @@
   "author": "Mykhailo Sichkaruk",
   "license": "MIT",
   "dependencies": {
+    "@fastify/jwt": "^6.3.2",
     "@prisma/client": "^4.1.1",
     "fastify": "^4.3.0",
-    "fastify-jwt": "^4.2.0",
+    "fastify-auth": "^1.2.0",
+    "fastify-plugin": "^4.0.0",
     "fastify-swagger": "^5.2.0",
     "fastify-zod": "^1.1.0",
     "zod": "^3.17.10",
