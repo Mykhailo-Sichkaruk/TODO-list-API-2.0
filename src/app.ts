@@ -1,22 +1,29 @@
 import Fastify from "fastify";
-import listRoutes from "./modules/list/list.routes";
 import prismaPlugin from "./plugins/prisma";
+import authRoutes from "./modules/auth/index";
+import fastifyJwt from "@fastify/jwt";
 
-const server = Fastify();
+const fastify = Fastify({ logger: true });
 
-server.get("/healthcheck", (request, reply) => {
+fastify.get("/healthcheck", (request, reply) => {
 	reply.send({ status: "ok" });
 });
 
 async function main() {
 
-	server.register(prismaPlugin);
-	server.register(listRoutes, { prefix: "/list" });
+	fastify.register(prismaPlugin);
+	fastify.register(fastifyJwt, {
+		secret: "secret",
+		sign: {
+			expiresIn: "1d",
+		},
+	});
+	fastify.register(authRoutes, { prefix: "/auth" });
 
 	try {
-		await server.listen({ port: 3000, host: "0.0.0.0" });
+		await fastify.listen({ port: 3000, host: "0.0.0.0" });
 	} catch (err) {
-		server.log.error(err);
+		fastify.log.error(err);
 		process.exit(1);
 	}
 }
