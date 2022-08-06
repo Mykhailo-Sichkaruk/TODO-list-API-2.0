@@ -1,24 +1,15 @@
 import Fastify from "fastify";
-import prismaPlugin from "./plugins/prisma";
 import authRoutes from "./modules/auth/index";
-import fastifyJwt from "@fastify/jwt";
+import jwtPlugin from "./plugins/jwt";
+import listRoutes from "./modules/list/index";
 
 const fastify = Fastify({ logger: true });
 
-fastify.get("/healthcheck", (request, reply) => {
-	reply.send({ status: "ok" });
-});
-
 async function main() {
 
-	fastify.register(prismaPlugin);
-	fastify.register(fastifyJwt, {
-		secret: "secret",
-		sign: {
-			expiresIn: "1d",
-		},
-	});
+	fastify.register(jwtPlugin);
 	fastify.register(authRoutes, { prefix: "/auth" });
+	fastify.register(listRoutes, { prefix: "/list" });
 
 	try {
 		await fastify.listen({ port: 3000, host: "0.0.0.0" });
