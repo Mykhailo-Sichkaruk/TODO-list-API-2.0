@@ -8,10 +8,8 @@ const postRegister = async (request, reply) => {
 	try {
 		// Check if user already exists
 		let user = await prisma.user.findUnique({ where: { login } });
-		// If user exists, return error
-		if (user) {
-			return reply.code(400).send({ error: "User already exists" });
-		}
+		if (user)
+			return reply.code(400).send({ message: "User already exists" });
 		// Create new user
 		user = await prisma.user.create({
 			data: {
@@ -23,8 +21,7 @@ const postRegister = async (request, reply) => {
 		const token = await reply.jwtSign({ id: user.id });
 		return reply.code(200).send({ token, user });
 	} catch (err) {
-		reply.code(500);
-		console.log(err);
+		reply.code(500).send({ message: "Something went wrong on the server" });
 	}
 };
 
@@ -33,21 +30,17 @@ const postLogin = async (request, reply) => {
 	try {
 		// Check if user exists
 		const user = await prisma.user.findUnique({ where: { login } });
-		// If user doesn't exist, return error
-		if (!user) {
-			return reply.code(400).send({ error: "User doesn't exist" });
-		}
+		if (!user)
+			return reply.code(400).send({ message: "User doesn't exist" });
 		// Check if password is correct
-		if (!await bcrypt.compare(password, user.password)) {
-			return reply.code(400).send({ error: "Password is incorrect" });
-		}
-		// Respond success
+		if (!await bcrypt.compare(password, user.password))
+			return reply.code(400).send({ message: "Password is incorrect" });
+		// Return token and user
 		const token = await reply.jwtSign({ id: user.id });
 		return reply.code(200).send({ token, user });
 
 	} catch (err) {
-		reply.code(500);
-		console.log(err);
+		reply.code(500).send({ message: "Something went wrong on the server" });
 	}
 };
 
