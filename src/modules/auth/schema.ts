@@ -1,57 +1,83 @@
-const requestBodySchema = {
+const loginPasswordSchema = {
+	title: "Login or password",
+	description: "Login or password schema",
+	type: "string",
+	minLength: 3,
+	maxLength: 20,
+};
+
+const textSchema = {
+	title: "Text",
+	description: "Basic text schema",
+	type: "string",
+	minLength: 1,
+	maxLength: 255,
+	default: "Any text here",
+};
+
+const idSchema = {
+	title: "Id",
+	description: "Id schema",
+	type: "string",
+	minLength: 25,
+	maxLength: 25,
+	default: "cl6guzfl80002v8ta8oagfd5h",
+};
+
+const tokenSchema = {
+	title: "Token",
+	description: "Token schema",
+	type: "string",
+	minLength: 172,
+	maxLength: 172,
+};
+
+const userSchema = {
+	title: "User",
+	description: "User schema",
 	type: "object",
 	properties: {
-		login: {
-			type: "string",
-			minLength: 3,
-			maxLength: 255,
-		},
-		password: {
-			type: "string",
-			minLength: 3,
-			maxLength: 255,
-		},
+		id: idSchema,
+		login: loginPasswordSchema,
+	},
+	required: ["id", "login"],
+};
+
+const authRequestSchema = {
+	type: "object",
+	properties: {
+		login: loginPasswordSchema,
+		password: loginPasswordSchema,
 	},
 	required: ["login", "password"],
 };
 
-const responseSchema = {
-	type: "object",
-	properties: {
-		token: {
-			type: "string",
-			minLength: 3,
-			maxLength: 255,
+const authResponseSchema = {
+	200: {
+		type: "object",
+		properties: {
+			token: tokenSchema,
+			user: userSchema,
 		},
-		user: {
-			type: "object",
-			properties: {
-				id: {
-					type: "string",
-					minLength: 3,
-					maxLength: 255,
-				},
-				login: {
-					type: "string",
-					minLength: 3,
-					maxLength: 255,
-				},
-				password: {
-					type: "string",
-					minLength: 3,
-					maxLength: 255,
-				},
+		required: ["token", "user"],
+	},
+	400: {
+		type: "object",
+		properties: {
+			message: {
+				title: "Message",
+				description: "Message schema",
+				type: "string",
+				default: "Something went wrong",
 			},
 		},
+		required: ["message"],
 	},
-	required: ["token"],
 };
 
 const authSchema = {
-	body: requestBodySchema,
-	response: {
-		200: responseSchema,
-	},
+	body: authRequestSchema,
+	response: authResponseSchema,
 	tags: ["auth"],
 	summary: "Login or register",
 	description: "Login or register",
@@ -60,4 +86,4 @@ const authSchema = {
 	produces: ["application/json"],
 };
 
-export default authSchema;
+export { authSchema, textSchema, idSchema };
