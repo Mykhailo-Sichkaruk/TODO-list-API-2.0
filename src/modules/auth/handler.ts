@@ -1,4 +1,5 @@
 import { PrismaClient, User } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -15,12 +16,11 @@ const postRegister = async (request, reply) => {
 		user = await prisma.user.create({
 			data: {
 				login,
-				password,
+				password: await bcrypt.hash(password, 10),
 			},
 		}) as unknown as User;
-		// Create new token
+		// Return token and user
 		const token = await reply.jwtSign({ id: user.id });
-		// Return success
 		return reply.code(200).send({ token, user });
 	} catch (err) {
 		reply.code(500);
@@ -38,7 +38,7 @@ const postLogin = async (request, reply) => {
 			return reply.code(400).send({ error: "User doesn't exist" });
 		}
 		// Check if password is correct
-		if (user.password !== password) {
+		if (!await bcrypt.compare(password, user.password)) {
 			return reply.code(400).send({ error: "Password is incorrect" });
 		}
 		// Respond success
