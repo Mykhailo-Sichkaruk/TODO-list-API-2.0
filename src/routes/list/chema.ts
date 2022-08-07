@@ -148,5 +148,20 @@ const getAllListsSchema = {
 	tags: ["list"],
 };
 
+// Subscribe
 
-export { postListSchema, deleteListSchema, putListSchema, getOneListSchema, getAllListsSchema };
+const subscribeResponseSchema = {
+	200: defaultResponseMsgSchema,
+	400: defaultResponseMsgSchema,
+	401: defaultResponseMsgSchema,
+};
+
+const subscribeToListSchema = {
+	title: "SubscribeList",
+	description: "Subscribe to list by id",
+	parameters: [idParamSchema],
+	response: subscribeResponseSchema,
+	tags: ["list"],
+};
+
+export { postListSchema, deleteListSchema, putListSchema, getOneListSchema, getAllListsSchema, subscribeToListSchema };
