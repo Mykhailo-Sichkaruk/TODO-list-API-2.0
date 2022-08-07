@@ -3,92 +3,69 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const postList = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+const postListHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
 	const { title } = request.body;
 	const authorId = request.user.id;
-	try {
-		const list = await prisma.list.create({
-			data: {
-				title,
-				authorId,
-				subscribers: { connect: { id: authorId } },
-			},
-		});
-		return reply.code(200).send(list);
-	} catch (err) {
-		reply.code(500).send({ message: "Something went wrong on the server" });
-	}
+	const list = await prisma.list.create({
+		data: {
+			title,
+			authorId,
+			subscribers: { connect: { id: authorId } },
+		},
+	});
+	return reply.code(200).send(list);
 };
 
-const deleteList = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+const deleteListHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
 	const { id } = request.params;
-	try {
-		// Check if list exists
-		const list = await prisma.list.findUnique({ where: { id } });
-		if (!list)
-			return reply.code(404).send({ message: "List doesn't exist" });
-		// Check if user is author
-		if (list.authorId !== request.user.id)
-			return reply.code(403).send({ message: "You are not the author of this List to delete List" });
+	// Check if user is author
+	if (request.list.authorId !== request.user.id)
+		return reply.code(403).send({ message: "You are not the author of this List to delete it" });
 		// Delete list
-		await prisma.list.delete({ where: { id } });
-		return reply.code(200).send({ message: `${list.title}(${list.id}) successfully deleted` });
-	} catch (err) {
-		reply.code(500).send({ message: "Something went wrong on the server" });
-	}
+	await prisma.list.delete({ where: { id } });
+	return reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully deleted` });
 };
 
-const putList = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+const putListHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
 	const { id } = request.params;
 	const { title } = request.body;
-	try {
-		// Check if list exists
-		const list = await prisma.list.findUnique({ where: { id } });
-		if (!list)
-			return reply.code(404).send({ message: "List doesn't exist" });
-		// Check if user is subscriber
-		const subscriber = await prisma.list.findFirst({
-			where: {
-				id,
-				subscribers: { some: { id: request.user.id } },
-			} });
-		if (!subscriber)
-			return reply.code(403).send({ message: "You are not a subscriber of this list" });
-		// Update list
-		await prisma.list.update({
-			where: { id },
-			data: { title },
-		});
-		return reply.code(200).send({ message: `${list.title}(${list.id}) successfully updated`, list });
-	} catch (err) {
-		reply.code(500).send({ message: "Something went wrong on the server" });
-	}
+	const updatedList = await prisma.list.update({
+		where: { id },
+		data: { title },
+	});
+	return reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully updated`, list: updatedList });
 };
 
-const getOneList = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+const getOneListHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
 	const { id } = request.params;
-	try {
-		// Check if list exists
-		const list = await prisma.list.findUnique({ where: { id } });
-		if (!list)
-			return reply.code(404).send({ message: "List doesn't exist" });
-		// Send list
-		return reply.code(200).send(list);
-	} catch (err) {
-		reply.code(500).send({ message: "Something went wrong on the server" });
-	}
+	return reply.code(200).send({ list: request.list });
 };
 
-const getAllLists = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
-	try {
-		// Get all lists
-		const lists = await prisma.list.findMany({
-			where: { subscribers: { some: { id: request.user.id } } },
-		});
-		return reply.code(200).send(lists);
-	} catch (err) {
-		reply.code(500).send({ message: "Something went wrong on the server" });
-	}
+const getAllListsHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+	// Get all lists
+	const lists = await prisma.list.findMany({
+		where: { subscribers: { some: { id: request.user.id } } },
+	});
+	return reply.code(200).send(lists);
 };
 
-export { postList, deleteList, putList, getOneList, getAllLists };
+const subscribeToListHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+	const { id } = request.params;
+	const { subscriberId } = request.body;
+	// Check if subscriber is already subscribed
+	const isSubscribed = await prisma.list.findFirst({
+		where: {
+			id,
+			subscribers: { some: { id: subscriberId } },
+		} });
+	if (isSubscribed)
+		return reply.code(403).send({ message: "This user is already subscribed to this list" });
+		// Subscribe to list
+	await prisma.list.update({
+		where: { id },
+		data: { subscribers: { connect: { id: subscriberId } } },
+	});
+	return reply.code(200).send({ message: `User ${subscriberId}${request.list.title}(${request.list.id}) successfully subscribed to` });
+};
+
+export { postListHandler, deleteListHandler, putListHandler, getOneListHandler, getAllListsHandler, subscribeToListHandler };
