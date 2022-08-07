@@ -1,32 +1,24 @@
 import { DoneFuncWithErrOrRes, FastifyInstance, RouteOptions } from "fastify";
-import { deleteListSchema, postListSchema, putListSchema } from "./chema";
-import { deleteList, getAllLists, getOneList, postList, putList } from "./handler";
-
-const postListOptions = {
-	schema: postListSchema,
-	handler: postList,
-};
-
-const deleteListOptions = {
-	schema: deleteListSchema,
-	handler: deleteList,
-};
-
-const putListOptions = {
-	schema: putListSchema,
-	handler: putList,
-};
+import { deleteListOptions, getAllListsOptions, getOneListOptions, postListOptions, putListOptions, subscribeToListOptions } from "./options";
 
 const listRoutes = (fastify: FastifyInstance, _options: RouteOptions, done: DoneFuncWithErrOrRes) => {
 	fastify.addHook("onRequest", async (request, reply) => {
-		fastify.authenticate(request, reply);
+		await fastify.authenticate(request, reply);
+		await fastify.isListExists(request, reply);
 	});
 
-	fastify.post("", postListOptions);
-	fastify.delete("/:id", deleteListOptions);
-	fastify.put("/:id", putListOptions);
-	fastify.get("/:id", getOneList);
-	fastify.get("", getAllLists);
+	fastify.get("", getAllListsOptions);
+	fastify.get("/:id", getOneListOptions);
+	fastify.register(async (fastify, _options, done) => {
+		fastify.addHook("onRequest", async (request, reply) => {
+			await fastify.isSubscribed(request, reply);
+		});
+		fastify.post("/:id/subscribe", subscribeToListOptions);
+		fastify.delete("/:id", deleteListOptions);
+		fastify.put("/:id", putListOptions);
+		fastify.post("", postListOptions);
+		done();
+	});
 
 	done();
 };
