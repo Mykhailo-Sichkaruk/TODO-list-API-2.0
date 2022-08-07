@@ -1,5 +1,6 @@
 import authRoutes from "./routes/auth/index";
 import listRoutes from "./routes/list/index";
+import errorHandler from "./plugins/errorHandler";
 import isSubscribed from "./plugins/isSubscribed";
 import isListExists from "./plugins/isListExists";
 import prismaPlugin from "./plugins/prisma";
@@ -9,7 +10,7 @@ import Fastify from "fastify";
 const fastify = Fastify({ logger: true });
 
 async function main() {
-
+	fastify.setErrorHandler(errorHandler);
 	fastify.register(jwtPlugin);
 	fastify.register(prismaPlugin);
 	fastify.register(isListExists);
@@ -19,6 +20,7 @@ async function main() {
 
 	try {
 		await fastify.listen({ port: 3000, host: "0.0.0.0" });
+		console.log(fastify.printRoutes());
 	} catch (err) {
 		fastify.log.error(err);
 		process.exit(1);
