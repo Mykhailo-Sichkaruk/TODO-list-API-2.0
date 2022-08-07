@@ -20,6 +20,16 @@ const defaultResponseMsgSchema = {
 	required: ["message"],
 };
 
+const defaultResponseSchema = {
+	200: defaultResponseMsgSchema,
+	400: defaultResponseMsgSchema,
+	401: defaultResponseMsgSchema,
+	404: defaultResponseMsgSchema,
+	500: defaultResponseMsgSchema,
+};
+
+// Post
+
 const postListRequestSchema = {
 	title: "PostList",
 	description: "PostList schema",
@@ -41,6 +51,8 @@ const postListResponseSchema = {
 	},
 	400: defaultResponseMsgSchema,
 	401: defaultResponseMsgSchema,
+	404: defaultResponseMsgSchema,
+	500: defaultResponseMsgSchema,
 };
 
 const postListSchema = {
@@ -65,16 +77,11 @@ const idParamSchema = {
 	},
 };
 
-const deleteListResponseSchema = {
-	200: defaultResponseMsgSchema,
-	401: defaultResponseMsgSchema,
-};
-
 const deleteListSchema = {
 	title: "DeleteList",
 	description: "Delete list by id, if you are author of list",
 	parameters: [idParamSchema],
-	response: deleteListResponseSchema,
+	response: defaultResponseSchema,
 	tags: ["list"],
 };
 
@@ -101,6 +108,8 @@ const putListResponseSchema = {
 	},
 	400: defaultResponseMsgSchema,
 	401: defaultResponseMsgSchema,
+	404: defaultResponseMsgSchema,
+	500: defaultResponseMsgSchema,
 };
 
 const putListSchema = {
@@ -128,6 +137,8 @@ const getOneListSchema = {
 		},
 		400: defaultResponseMsgSchema,
 		401: defaultResponseMsgSchema,
+		404: defaultResponseMsgSchema,
+		500: defaultResponseMsgSchema,
 	},
 	tags: ["list"],
 };
@@ -144,23 +155,19 @@ const getAllListsSchema = {
 		},
 		400: defaultResponseMsgSchema,
 		401: defaultResponseMsgSchema,
+		404: defaultResponseMsgSchema,
+		500: defaultResponseMsgSchema,
 	},
 	tags: ["list"],
 };
 
 // Subscribe
 
-const subscribeResponseSchema = {
-	200: defaultResponseMsgSchema,
-	400: defaultResponseMsgSchema,
-	401: defaultResponseMsgSchema,
-};
-
 const subscribeToListSchema = {
 	title: "SubscribeList",
 	description: "Subscribe to list by id",
 	parameters: [idParamSchema],
-	response: subscribeResponseSchema,
+	response: defaultResponseSchema,
 	tags: ["list"],
 };
 
