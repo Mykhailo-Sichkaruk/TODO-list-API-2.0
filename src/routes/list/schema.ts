@@ -1,4 +1,4 @@
-import { idSchema, textSchema } from "../auth/schema";
+import { bearerAuth, idSchema, textSchema } from "../auth/schema";
 
 const listSchema = {
 	title: "List",
@@ -61,6 +61,7 @@ const postListSchema = {
 	body: postListRequestSchema,
 	response: postListResponseSchema,
 	tags: ["list"],
+	security: [ { bearerAuth: [] } ],
 };
 
 // Delete
@@ -83,6 +84,7 @@ const deleteListSchema = {
 	parameters: [idParamSchema],
 	response: defaultResponseSchema,
 	tags: ["list"],
+	security: [ { bearerAuth: [] } ],
 };
 
 // Put
@@ -119,6 +121,7 @@ const putListSchema = {
 	parameters: [idParamSchema],
 	response: putListResponseSchema,
 	tags: ["list"],
+	security: [ { bearerAuth: [] } ],
 };
 
 // Get one
@@ -141,6 +144,7 @@ const getOneListSchema = {
 		500: defaultResponseMsgSchema,
 	},
 	tags: ["list"],
+	security: [ { bearerAuth: [] } ],
 };
 
 // Get all
@@ -159,6 +163,7 @@ const getAllListsSchema = {
 		500: defaultResponseMsgSchema,
 	},
 	tags: ["list"],
+	security: [ { bearerAuth: [] } ],
 };
 
 // Subscribe
@@ -169,6 +174,7 @@ const subscribeToListSchema = {
 	parameters: [idParamSchema],
 	response: defaultResponseSchema,
 	tags: ["list"],
+	security: [ { bearerAuth: [] } ],
 };
 
 export { postListSchema, deleteListSchema, putListSchema, getOneListSchema, getAllListsSchema, subscribeToListSchema };

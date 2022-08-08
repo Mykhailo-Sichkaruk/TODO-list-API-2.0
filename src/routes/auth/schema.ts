@@ -1,9 +1,19 @@
+const bearerAuth = {
+	type: "http",
+	scheme: "bearer",
+	name: "Authorization",
+	description: "Bearer authentication",
+	bearerFormat: "JWT",
+	in: "header",
+};
+
 const loginPasswordSchema = {
 	title: "Login or password",
 	description: "Login or password schema",
 	type: "string",
 	minLength: 3,
 	maxLength: 20,
+	default: "admin",
 };
 
 const textSchema = {
@@ -86,4 +96,4 @@ const authSchema = {
 	produces: ["application/json"],
 };
 
-export { authSchema, textSchema, idSchema };
+export { authSchema, textSchema, idSchema, bearerAuth };

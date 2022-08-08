@@ -5,21 +5,27 @@ import isSubscribed from "./plugins/isSubscribed";
 import isListExists from "./plugins/isListExists";
 import prismaPlugin from "./plugins/prisma";
 import jwtPlugin from "./plugins/jwt";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerOptions from "./plugins/swaggerDocs";
 import Fastify from "fastify";
 
 const fastify = Fastify({ logger: true });
 
 async function main() {
+	await fastify.register(fastifySwagger, fastifySwaggerOptions);
+
 	fastify.setErrorHandler(errorHandler);
-	fastify.register(jwtPlugin);
-	fastify.register(prismaPlugin);
-	fastify.register(isListExists);
-	fastify.register(isSubscribed);
-	fastify.register(authRoutes, { prefix: "/auth" });
-	fastify.register(listRoutes, { prefix: "/list" });
+	await fastify.register(jwtPlugin);
+	await fastify.register(prismaPlugin);
+	await fastify.register(isListExists);
+	await fastify.register(isSubscribed);
+	await fastify.register(authRoutes, { prefix: "/auth" });
+	await fastify.register(listRoutes, { prefix: "/list" });
+	await fastify.ready();
+	fastify.swagger();
 
 	try {
-		await fastify.listen({ port: 3000, host: "0.0.0.0" });
+		fastify.listen({ port: process.env.PORT as unknown as number, host: "0.0.0.0" });
 		console.log(fastify.printRoutes());
 	} catch (err) {
 		fastify.log.error(err);
