@@ -1,32 +1,52 @@
-import authRoutes from "./routes/auth/index";
-import listRoutes from "./routes/list/index";
-import errorHandler from "./plugins/errorHandler";
-import isSubscribed from "./plugins/isSubscribed";
-import isListExists from "./plugins/isListExists";
-import prismaPlugin from "./plugins/prisma";
-import jwtPlugin from "./plugins/jwt";
+import authRoutes from "./routes/auth/index.js";
+import listRoutes from "./routes/list/index.js";
+import errorHandler from "./plugins/errorHandler.js";
+import isSubscribed from "./plugins/isSubscribed.js";
+import isListExists from "./plugins/isListExists.js";
+import prismaPlugin from "./plugins/prisma.js";
+import jwtPlugin from "./plugins/jwt.js";
 import fastifySwagger from "@fastify/swagger";
-import fastifySwaggerOptions from "./plugins/swaggerDocs";
-import Fastify from "fastify";
+import fastifySwaggerOptions from "./plugins/swaggerDocs.js";
+import fastify from "fastify";
 
-const fastify = Fastify({ logger: true });
+declare module "fastify" {
+ interface FastifyRequest {
+    list?: {
+      id: string;
+      title: string;
+      authorId: string;
+    } | null;
+    }
+  interface FastifyInstance {
+    isListExists(request: FastifyRequest, reply: FastifyReply): Promise<void>;
+    isSubscribed(request: FastifyRequest, reply: FastifyReply): Promise<void>;
+    authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void>;
+  }
+}
 
-fastify.register(fastifySwagger, fastifySwaggerOptions);
 
-fastify.setErrorHandler(errorHandler);
-fastify.register(jwtPlugin);
-fastify.register(prismaPlugin);
-fastify.register(isListExists);
-fastify.register(isSubscribed);
-fastify.register(authRoutes, { prefix: "/auth" });
-fastify.register(listRoutes, { prefix: "/list" });
-fastify.ready();
-fastify.swagger();
+const server: fastify.FastifyInstance = fastify({});
 
+async function main() {
+	server.setErrorHandler(errorHandler);
+	await server.register(fastifySwagger, fastifySwaggerOptions);
+	await server.register(jwtPlugin);
+	await server.register(prismaPlugin);
+	await server.register(isListExists);
+	await server.register(isSubscribed);
+	await server.register(authRoutes, { prefix: "/auth" });
+	await server.register(listRoutes, { prefix: "/list" });
+	await server.ready();
+	await server.swagger();
+	console.log(server.printRoutes());
+
+	return server;
+}
+
+main();
 try {
-	fastify.listen({ port: process.env.PORT as unknown as number, host: "0.0.0.0" });
-	console.log(fastify.printRoutes());
+	server.listen({ port: process.env.PORT as unknown as number, host: "0.0.0.0" });
 } catch (err) {
-	fastify.log.error(err);
+	server.log.error(err);
 	process.exit(1);
 }
