@@ -3,10 +3,12 @@
   "version": "2.0.0",
   "description": "Rewrited TODO api with Fastify",
   "main": "/src/app.ts",
+  "types": "/src/app.d.ts",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "dev": "tsnd --respawn --transpile-only --exit-child src/app.ts",
-    "ts": "ts-node --files src/app.ts"
+    "ts": "tsc src/app.ts"
   },
   "keywords": [
     "todo-list",
@@ -25,7 +27,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/node": "^18.6.3",
+    "@types/node": "^18.7.5",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
     "eslint": "^8.21.0",
