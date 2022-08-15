@@ -1,4 +1,4 @@
-import { bearerAuth, idSchema, textSchema } from "../auth/schema";
+import { idSchema, textSchema } from "../auth/schema.js";
 
 const listSchema = {
 	title: "List",
@@ -177,4 +177,4 @@ const subscribeToListSchema = {
 	security: [ { bearerAuth: [] } ],
 };
 
-export { postListSchema, deleteListSchema, putListSchema, getOneListSchema, getAllListsSchema, subscribeToListSchema };
+export { postListSchema, deleteListSchema, putListSchema, getOneListSchema, getAllListsSchema, subscribeToListSchema, defaultResponseSchema  };

@@ -1,10 +1,11 @@
 import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { FastifyReply, FastifyRequest } from "fastify";
 
 const prisma = new PrismaClient();
 
-const postRegister = async (request, reply) => {
-	const { login, password } = request.body;
+const postRegister = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+	const { login, password } = request.body as { login: string; password: string };
 	// Check if user already exists
 	let user = await prisma.user.findUnique({ where: { login } });
 	if (user)
@@ -21,8 +22,8 @@ const postRegister = async (request, reply) => {
 	return reply.code(200).send({ token, user });
 };
 
-const postLogin = async (request, reply) => {
-	const { login, password } = request.body;
+const postLogin = async (request: FastifyRequest, reply: FastifyReply) => {
+	const { login, password } = request.body as { login: string; password: string };
 	// Check if user exists
 	const user = await prisma.user.findUnique({ where: { login } });
 	if (!user)

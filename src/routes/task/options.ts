@@ -1,5 +1,5 @@
-import { postTaskHandler } from "./handler";
-import { postTaskSchema } from "./schema";
+import { postTaskHandler } from "./handler.js";
+import { postTaskSchema } from "./schema.js";
 
 const postTaskOptions = {
 	schema: postTaskSchema,

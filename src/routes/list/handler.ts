@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const postListHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
-	const { title } = request.body;
+	const { title } = request.body as { title: string };
 	const authorId = request.user.id;
 	const list = await prisma.list.create({
 		data: {
@@ -49,7 +49,7 @@ const getAllListsHandler = async (request: FastifyRequest<any>, reply: FastifyRe
 	return reply.code(200).send(lists);
 };
 
-const subscribeToListHandler = async (request: FastifyRequest<any>, reply: FastifyReply<any>) => {
+const subscribeToListHandler = async (request: FastifyRequest<never>, reply: FastifyReply<any>) => {
 	const { id } = request.params;
 	const { subscriberId } = request.body;
 	// Check if subscriber is already subscribed

@@ -1,5 +1,5 @@
-import { idSchema, textSchema } from "./../auth/schema";
-import { defaultResponseSchema } from "./../list/schema";
+import { idSchema, textSchema } from "./../auth/schema.js";
+import { defaultResponseSchema } from "./../list/schema.js";
 
 const deadlineSchema = {
 	type: "string",

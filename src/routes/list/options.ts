@@ -1,5 +1,5 @@
-import { deleteListSchema, getAllListsSchema, getOneListSchema, postListSchema, putListSchema, subscribeToListSchema } from "./schema";
-import { deleteListHandler, getAllListsHandler, getOneListHandler, postListHandler, putListHandler, subscribeToListHandler } from "./handler";
+import { deleteListSchema, getAllListsSchema, getOneListSchema, postListSchema, putListSchema, subscribeToListSchema } from "./schema.js";
+import { deleteListHandler, getAllListsHandler, getOneListHandler, postListHandler, putListHandler, subscribeToListHandler } from "./handler.js";
 
 const postListOptions = {
 	schema: postListSchema,

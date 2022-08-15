@@ -1,5 +1,5 @@
 import { DoneFuncWithErrOrRes, FastifyInstance, RouteOptions } from "fastify";
-import { deleteListOptions, getAllListsOptions, getOneListOptions, postListOptions, putListOptions, subscribeToListOptions } from "./options";
+import { deleteListOptions, getAllListsOptions, getOneListOptions, postListOptions, putListOptions, subscribeToListOptions } from "./options.js";
 
 const listRoutes = (fastify: FastifyInstance, _options: RouteOptions, done: DoneFuncWithErrOrRes) => {
 	fastify.addHook("onRequest", async (request, reply) => {

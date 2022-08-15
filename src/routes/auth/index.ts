@@ -1,6 +1,6 @@
 import { DoneFuncWithErrOrRes, FastifyInstance, RouteOptions } from "fastify";
-import { postLogin, postRegister } from "./handler";
-import { authSchema } from "./schema";
+import { postLogin, postRegister } from "./handler.js";
+import { authSchema } from "./schema.js";
 
 const loginOptions = {
 	schema: authSchema,
