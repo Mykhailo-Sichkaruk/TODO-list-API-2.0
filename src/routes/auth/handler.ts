@@ -1,7 +1,7 @@
+import { Request } from "../../plugins/prisma.js";
 import { PrismaClient, User } from "@prisma/client";
+import { FastifyReply } from "fastify";
 import bcrypt from "bcrypt";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { Request } from "../../plugins/prisma";
 
 const prisma = new PrismaClient();
 

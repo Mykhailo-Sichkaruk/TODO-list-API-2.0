@@ -1,26 +1,24 @@
-import { DoneFuncWithErrOrRes, FastifyInstance, RouteOptions } from "fastify";
+import { FastifyInstance, FastifyPluginAsync, FastifyReply } from "fastify";
+import { Request } from "../../plugins/prisma.js";
 import { deleteListOptions, getAllListsOptions, getOneListOptions, postListOptions, putListOptions, subscribeToListOptions } from "./options.js";
 
-const listRoutes = (fastify: FastifyInstance, _options: RouteOptions, done: DoneFuncWithErrOrRes) => {
-	fastify.addHook("onRequest", async (request, reply) => {
+const listRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
+	fastify.addHook("onRequest", async (request: Request, reply: FastifyReply) => {
 		await fastify.authenticate(request, reply);
 		await fastify.isListExists(request, reply);
 	});
 
 	fastify.get("", getAllListsOptions);
 	fastify.get("/:id", getOneListOptions);
-	fastify.register(async (fastify, _options, done) => {
-		fastify.addHook("onRequest", async (request, reply) => {
+	fastify.post("", postListOptions);
+	fastify.register(async (fastify: FastifyInstance)  => {
+		fastify.addHook("onRequest", async (request: Request, reply: FastifyReply) => {
 			await fastify.isSubscribed(request, reply);
 		});
 		fastify.post("/:id/subscribe", subscribeToListOptions);
 		fastify.delete("/:id", deleteListOptions);
 		fastify.put("/:id", putListOptions);
-		fastify.post("", postListOptions);
-		done();
 	});
-
-	done();
 };
 
 export default listRoutes;

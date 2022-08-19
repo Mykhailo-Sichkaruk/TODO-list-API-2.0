@@ -1,4 +1,5 @@
 import { idSchema, textSchema } from "../auth/schema.js";
+import { taskSchema } from "../task/schema.js";
 
 const listSchema = {
 	title: "List",
@@ -8,6 +9,10 @@ const listSchema = {
 		id: idSchema,
 		title: textSchema,
 		authorId: idSchema,
+		lists: {
+			type: "array",
+			items: taskSchema,
+		},
 	},
 	required: ["id", "title", "authorId"],
 };
@@ -60,8 +65,8 @@ const postListSchema = {
 	description: "Create list",
 	body: postListRequestSchema,
 	response: postListResponseSchema,
-	tags: ["list"],
 	security: [ { bearerAuth: [] } ],
+	tags: ["list"],
 };
 
 // Delete

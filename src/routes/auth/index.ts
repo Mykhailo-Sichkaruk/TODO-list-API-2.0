@@ -1,4 +1,4 @@
-import { FastifyPluginAsync } from "fastify";
+import { FastifyInstance, FastifyPluginAsync } from "fastify";
 import { postLogin, postRegister } from "./handler.js";
 import { authSchema } from "./schema.js";
 
@@ -12,7 +12,7 @@ const registerOptions = {
 	handler: postRegister,
 };
 
-const authRoutes: FastifyPluginAsync = async fastify => {
+const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
 	fastify.post("/login", loginOptions);
 	fastify.post("/register", registerOptions);
 };

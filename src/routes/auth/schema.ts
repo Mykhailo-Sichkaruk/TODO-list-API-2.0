@@ -31,7 +31,7 @@ const idSchema = {
 	type: "string",
 	minLength: 25,
 	maxLength: 25,
-	default: "cl6guzfl80002v8ta8oagfd5h",
+	// default: "cl6guzfl80002v8ta8oagfd5h",
 };
 
 const tokenSchema = {
@@ -40,6 +40,7 @@ const tokenSchema = {
 	type: "string",
 	minLength: 172,
 	maxLength: 172,
+	default: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsNmhzOGJ6ajAwMDJqd3RhbThqYmQ1OTgiLCJpYXQiOjE2NjA5MjYyODQsImV4cCI6MTY2MDkyOTg4NH0.FfXv6bb2RR0jcT6pw7r3fGdiAI5qL6vWc9zPt7vkjY4",
 };
 
 const userSchema = {
