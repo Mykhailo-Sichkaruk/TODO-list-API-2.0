@@ -1,7 +1,7 @@
-import { FastifyReply } from "fastify";
+import { FastifyInstance, FastifyReply } from "fastify";
 import fp from "fastify-plugin";
 import { Server } from "https";
-import { Request } from "./prisma";
+import { Request } from "./prisma.js";
 
 declare module "fastify"{
 	interface FastifyRequest{
@@ -16,7 +16,7 @@ declare module "fastify"{
 	}
 }
 
-export default fp<Server>(async fastify => {
+export default fp<Server>(async (fastify: FastifyInstance) => {
 	fastify.decorateRequest("list", null);
 	fastify.decorate("isListExists", async (request: Request, reply: FastifyReply) => {
 		if (request.params.id) {
