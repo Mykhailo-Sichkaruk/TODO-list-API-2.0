@@ -1,9 +1,10 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply } from "fastify";
 import { PrismaClient } from "@prisma/client";
+import { Request } from "../../plugins/prisma.js";
 
 const prisma = new PrismaClient();
 
-const postTaskHandler = async (request, reply) => {
+const postTaskHandler = async (request: Request, reply: FastifyReply) => {
 	const { listId, title, body, deadline, status } = request.body;
 	// Check if list exists
 	const list = await prisma.list.findUnique({ where: { id: listId } });

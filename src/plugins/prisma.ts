@@ -1,26 +1,43 @@
+import { FastifyRequest } from "fastify";
+import { PrismaClient, Status } from "@prisma/client";
+import { Server } from "http";
 import fp from "fastify-plugin";
-import { FastifyPluginAsync } from "fastify";
-import { PrismaClient } from "@prisma/client";
 
 declare module "fastify" {
   interface FastifyInstance {
-    prisma: PrismaClient
+    prisma: PrismaClient;
   }
 }
 
-const prismaPlugin: FastifyPluginAsync = fp(async (server, options) => {
+export type Request = FastifyRequest<{
+	Body: {
+		id: string,
+		title: string,
+		subscriberId: string,
+		listId: string,
+		body: string,
+		deadline: string,
+		status: Status,
+		login: string,
+		password: string,
+	};
+	Params: {
+		id: string;
+	}
+}>
+
+
+export default fp<Server>(async fastify => {
 	const prisma = new PrismaClient({
 		log: ["error", "warn"],
 	});
 
 	await prisma.$connect();
 
-	server.decorate("prisma", prisma);
+	fastify.decorate("prisma", prisma);
 
-	server.addHook("onClose", async server => {
+	fastify.addHook("onClose", async server => {
 		server.log.info("disconnecting Prisma from DB");
 		await server.prisma.$disconnect();
 	});
 });
-
-export default prismaPlugin;

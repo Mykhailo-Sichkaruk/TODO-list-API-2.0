@@ -1,4 +1,4 @@
-import { DoneFuncWithErrOrRes, FastifyInstance, RouteOptions } from "fastify";
+import { FastifyPluginAsync } from "fastify";
 import { postLogin, postRegister } from "./handler.js";
 import { authSchema } from "./schema.js";
 
@@ -12,10 +12,9 @@ const registerOptions = {
 	handler: postRegister,
 };
 
-const authRoutes = (fastify: FastifyInstance, _options: RouteOptions, done: DoneFuncWithErrOrRes) => {
+const authRoutes: FastifyPluginAsync = async fastify => {
 	fastify.post("/login", loginOptions);
 	fastify.post("/register", registerOptions);
-	done();
 };
 
 export default authRoutes;
