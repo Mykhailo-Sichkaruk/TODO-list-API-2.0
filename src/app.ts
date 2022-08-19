@@ -8,8 +8,11 @@ import jwtPlugin from "./plugins/jwt.js";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerOptions from "./plugins/swaggerDocs.js";
 import { fastify, FastifyInstance } from "fastify";
+import fastifyOptions from "./plugins/fastifyOptions.js";
+import taskRoutes from "./routes/task/index.js";
+import isTaskExists from "./plugins/isTaskExists.js";
 
-const server: FastifyInstance = fastify({});
+const server: FastifyInstance = fastify(fastifyOptions);
 
 async function main() {
 	server.setErrorHandler(errorHandler);
@@ -18,8 +21,10 @@ async function main() {
 	await server.register(prismaPlugin);
 	await server.register(isListExists);
 	await server.register(isSubscribed);
+	await server.register(isTaskExists);
 	await server.register(authRoutes, { prefix: "/auth" });
 	await server.register(listRoutes, { prefix: "/list" });
+	await server.register(taskRoutes, { prefix: "/task" });
 	await server.ready();
 	server.swagger();
 	console.log(server.printRoutes());
