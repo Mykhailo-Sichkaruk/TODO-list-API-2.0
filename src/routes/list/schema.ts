@@ -1,4 +1,4 @@
-import { defaultReply, defaultReplyMsg, id, idParam, task, text } from "../../plugins/schema.js";
+import { deadline, defaultReply, defaultReplyMsg, id, idParam, status, task, text } from "../../plugins/schema.js";
 
 const list = {
 	title: "List",
@@ -13,7 +13,7 @@ const list = {
 			items: task,
 		},
 	},
-	required: ["id", "title", "authorId", "tasks"],
+	required: ["id", "title"],
 };
 
 // Post
@@ -125,13 +125,41 @@ const getOne = {
 
 // Get all
 
+const replyTask = {
+	type: "object",
+	properties: {
+		id,
+		title: text,
+		body: text,
+		deadline,
+		status,
+	},
+	required: ["id", "title", "body", "deadline", "status"],
+};
+
+const replyList = {
+	title: "List",
+	description: "List schema",
+	type: "object",
+	properties: {
+		id,
+		title: text,
+		authorId: id,
+		tasks: {
+			type: "array",
+			items: replyTask,
+		},
+	},
+	required: ["id", "title"],
+};
+
 const getAll = {
 	title: "GetAllLists",
 	description: "Get subscribed lists",
 	response: {
 		200: {
 			type: "array",
-			items: list,
+			items: replyList,
 		},
 		400: defaultReplyMsg,
 		401: defaultReplyMsg,
@@ -144,11 +172,22 @@ const getAll = {
 
 // Subscribe
 
+const subscribeBody = {
+	title: "subscribe",
+	description: "subscribe schema",
+	type: "object",
+	properties: {
+		subscriberId: id,
+	},
+	required: ["subscriberId"],
+};
+
 const subscribe = {
 	title: "SubscribeList",
 	description: "Subscribe to list by id",
 	parameters: [idParam],
 	response: defaultReply,
+	body: subscribeBody,
 	tags: ["list"],
 	security: [ { bearerAuth: [] } ],
 };
