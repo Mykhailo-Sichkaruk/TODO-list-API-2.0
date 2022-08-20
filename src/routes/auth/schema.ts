@@ -1,11 +1,4 @@
-const bearerAuth = {
-	type: "http",
-	scheme: "bearer",
-	name: "Authorization",
-	description: "Bearer authentication",
-	bearerFormat: "JWT",
-	in: "header",
-};
+import { idSchema, tokenSchema } from "../../plugins/schema.js";
 
 const loginPasswordSchema = {
 	title: "Login or password",
@@ -14,33 +7,6 @@ const loginPasswordSchema = {
 	minLength: 3,
 	maxLength: 20,
 	default: "admin",
-};
-
-const textSchema = {
-	title: "Text",
-	description: "Basic text schema",
-	type: "string",
-	minLength: 1,
-	maxLength: 255,
-	default: "Any text here",
-};
-
-const idSchema = {
-	title: "Id",
-	description: "Id schema",
-	type: "string",
-	minLength: 25,
-	maxLength: 25,
-	// default: "cl6guzfl80002v8ta8oagfd5h",
-};
-
-const tokenSchema = {
-	title: "Token",
-	description: "Token schema",
-	type: "string",
-	minLength: 172,
-	maxLength: 172,
-	default: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNsNmhzOGJ6ajAwMDJqd3RhbThqYmQ1OTgiLCJpYXQiOjE2NjA5MjYyODQsImV4cCI6MTY2MDkyOTg4NH0.FfXv6bb2RR0jcT6pw7r3fGdiAI5qL6vWc9zPt7vkjY4",
 };
 
 const userSchema = {
@@ -97,4 +63,4 @@ const authSchema = {
 	produces: ["application/json"],
 };
 
-export { authSchema, textSchema, idSchema, bearerAuth };
+export { authSchema };

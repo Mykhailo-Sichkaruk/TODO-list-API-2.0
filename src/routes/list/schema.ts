@@ -1,5 +1,4 @@
-import { idSchema, textSchema } from "../auth/schema.js";
-import { taskSchema } from "../task/schema.js";
+import { defaultResponseMsgSchema, defaultResponseSchema, idSchema, taskSchema, textSchema  } from "../../plugins/schema.js";
 
 const listSchema = {
 	title: "List",
@@ -9,28 +8,12 @@ const listSchema = {
 		id: idSchema,
 		title: textSchema,
 		authorId: idSchema,
-		lists: {
+		tasks: {
 			type: "array",
 			items: taskSchema,
 		},
 	},
-	required: ["id", "title", "authorId"],
-};
-
-const defaultResponseMsgSchema = {
-	type: "object",
-	properties: {
-		message: textSchema,
-	},
-	required: ["message"],
-};
-
-const defaultResponseSchema = {
-	200: defaultResponseMsgSchema,
-	400: defaultResponseMsgSchema,
-	401: defaultResponseMsgSchema,
-	404: defaultResponseMsgSchema,
-	500: defaultResponseMsgSchema,
+	required: ["id", "title", "authorId", "tasks"],
 };
 
 // Post
