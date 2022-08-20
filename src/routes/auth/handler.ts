@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-const postRegister = async (request: Request, reply: FastifyReply) => {
+const register = async (request: Request, reply: FastifyReply) => {
 	const { login, password } = request.body;
 	// Check if user already exists
 	let user = await prisma.user.findUnique({ where: { login } });
@@ -23,7 +23,7 @@ const postRegister = async (request: Request, reply: FastifyReply) => {
 	return reply.code(200).send({ token, user });
 };
 
-const postLogin = async (request: Request, reply: FastifyReply) => {
+const login = async (request: Request, reply: FastifyReply) => {
 	const { login, password } = request.body;
 	// Check if user exists
 	const user = await prisma.user.findUnique({ where: { login } });
@@ -37,4 +37,4 @@ const postLogin = async (request: Request, reply: FastifyReply) => {
 	return reply.code(200).send({ token, user });
 };
 
-export { postRegister, postLogin };
+export { register, login };
