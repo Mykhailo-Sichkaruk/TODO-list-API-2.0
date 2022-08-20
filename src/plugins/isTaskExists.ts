@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyReply } from "fastify";
-import * as fp from "fastify-plugin";
+import fp from "fastify-plugin";
 import { Server } from "https";
 import { Request } from "./prisma.js";
 
@@ -16,7 +16,7 @@ declare module "fastify"{
 	}
 }
 
-export default fp.default<Server>(async (fastify: FastifyInstance) => {
+export default fp<Server>(async (fastify: FastifyInstance) => {
 	fastify.decorateRequest("task", null);
 	fastify.decorate("isTaskExists", async (request: Request, reply: FastifyReply) => {
 		if (request.params.id && request.method !== "POST") {
