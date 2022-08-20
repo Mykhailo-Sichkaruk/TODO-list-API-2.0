@@ -9,7 +9,6 @@ function errorHandler(error: FastifyError, _request: FastifyRequest, reply: Fast
 		// Send error response		
 		reply.status(500).send({ message: "Something went wrong on the server" });
 	}
-
 }
 
 export default errorHandler;

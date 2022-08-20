@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
-import * as options from "./options";
+import * as options from "./options.js";
 
 const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
 	fastify.post("/login", options.login);

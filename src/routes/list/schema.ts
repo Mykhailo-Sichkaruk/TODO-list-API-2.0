@@ -54,7 +54,6 @@ const post = {
 
 // Delete
 
-
 const deleteL = {
 	title: "deleteL",
 	description: "Delete list by id, if you are author of list",

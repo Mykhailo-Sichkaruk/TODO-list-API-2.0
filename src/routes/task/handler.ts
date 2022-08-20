@@ -7,12 +7,6 @@ const prisma = new PrismaClient();
 const post = async (request: Request, reply: FastifyReply) => {
 	const { listId, title, body, status } = request.body as { listId: string, title: string, body: string, deadline: string, status: Status };
 	let { deadline } = request.body;
-	// Check if list exists
-	const list = await prisma.list.findUnique({ where: { id: listId }, select: { id: true, title: true, authorId: true } });
-	if (!list) {
-		reply.code(404).send({ message: `List with id:${listId} doesn't exist` });
-		return;
-	}
 	// Check deadline
 	try {
 		deadline = checkDeadline(deadline);
@@ -60,7 +54,7 @@ const put = async (request: Request, reply: FastifyReply) => {
 const deleteT = async (request: Request, reply: FastifyReply) => {
 	const { id } = request.params;
 	await prisma.task.delete({ where: { id } });
-	return reply.code(200).send({ message: "Task deleted" });
+	reply.code(200).send({ message: "Task deleted" });
 };
 
 function checkDeadline(value: string | number | Date | undefined): Date {

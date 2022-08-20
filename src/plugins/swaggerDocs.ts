@@ -46,8 +46,6 @@ const openapiOptions = {
 	host: `localhost:${process.env.PORT}`,
 };
 
-
-
 fastifySwaggerOptions.openapi = openapiOptions;
 
 export default fastifySwaggerOptions;
