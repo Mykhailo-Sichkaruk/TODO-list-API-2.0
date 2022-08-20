@@ -1,17 +1,14 @@
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { Route } from "../../index.js";
-
-const prisma = new PrismaClient();
 
 const register: Route = async (request, reply) => {
 	const { login, password } = request.body;
 	// Check if user already exists
-	let user = await prisma.user.findUnique({ where: { login } });
+	let user = await request.prisma.user.findUnique({ where: { login } });
 	if (user)
 		return reply.code(400).send({ message: "User already exists" });
 	// Create new user
-	user = await prisma.user.create({
+	user = await request.prisma.user.create({
 		data: {
 			login,
 			password: await bcrypt.hash(password, 10),
@@ -25,7 +22,7 @@ const register: Route = async (request, reply) => {
 const login: Route = async (request, reply) => {
 	const { login, password } = request.body;
 	// Check if user exists
-	const user = await prisma.user.findUnique({ where: { login } });
+	const user = await request.prisma.user.findUnique({ where: { login } });
 	if (!user)
 		return reply.code(400).send({ message: "User doesn't exist" });
 		// Check if password is correct

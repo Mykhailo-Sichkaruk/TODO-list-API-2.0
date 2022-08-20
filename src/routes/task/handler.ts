@@ -1,7 +1,5 @@
-import { PrismaClient, Status } from "@prisma/client";
+import { Status } from "@prisma/client";
 import { Route } from "../../index.js";
-
-const prisma = new PrismaClient();
 
 const post: Route = async (request, reply) => {
 	const { listId, title, body, status } = request.body as { listId: string, title: string, body: string, deadline: string, status: Status };
@@ -14,7 +12,7 @@ const post: Route = async (request, reply) => {
 		return;
 	}
 	// Create Task
-	const task = await prisma.task.create({
+	const task = await request.prisma.task.create({
 		data: {
 			title,
 			body,
@@ -39,7 +37,7 @@ const put: Route = async (request, reply) => {
 		}
 	}
 	// Update Task
-	const updatedTask = await prisma.task.update({
+	const updatedTask = await request.prisma.task.update({
 		where: { id },
 		data: {
 			title,
@@ -52,7 +50,7 @@ const put: Route = async (request, reply) => {
 
 const deleteT: Route = async (request, reply) => {
 	const { id } = request.params;
-	await prisma.task.delete({ where: { id } });
+	await request.prisma.task.delete({ where: { id } });
 	reply.code(200).send({ message: "Task deleted" });
 };
 
