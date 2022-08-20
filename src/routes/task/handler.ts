@@ -1,10 +1,9 @@
-import { FastifyReply } from "fastify";
 import { PrismaClient, Status } from "@prisma/client";
-import { Request } from "../../plugins/prisma.js";
+import { Route } from "../../index.js";
 
 const prisma = new PrismaClient();
 
-const post = async (request: Request, reply: FastifyReply) => {
+const post: Route = async (request, reply) => {
 	const { listId, title, body, status } = request.body as { listId: string, title: string, body: string, deadline: string, status: Status };
 	let { deadline } = request.body;
 	// Check deadline
@@ -27,7 +26,7 @@ const post = async (request: Request, reply: FastifyReply) => {
 	reply.code(200).send({ message: `Task {${task.title}} successfully created.`, task });
 };
 
-const put = async (request: Request, reply: FastifyReply) => {
+const put: Route = async (request, reply) => {
 	const { id, title, body, status } = request.body;
 	let { deadline } = request.body;
 	// Check deadline
@@ -48,10 +47,10 @@ const put = async (request: Request, reply: FastifyReply) => {
 			body,
 			status,
 		} });
-	return reply.code(200).send(updatedTask);
+	reply.code(200).send(updatedTask);
 };
 
-const deleteT = async (request: Request, reply: FastifyReply) => {
+const deleteT: Route = async (request, reply) => {
 	const { id } = request.params;
 	await prisma.task.delete({ where: { id } });
 	reply.code(200).send({ message: "Task deleted" });

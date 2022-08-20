@@ -1,5 +1,5 @@
 import fastifyJwt, { FastifyJWTOptions } from "@fastify/jwt";
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
 
 type TokenObject = {
@@ -19,7 +19,7 @@ declare module "fastify" {
   }
 }
 
-export default fp<FastifyJWTOptions>(async (fastify: FastifyInstance) => {
+export default fp<FastifyJWTOptions>(async fastify => {
 	fastify.register(fastifyJwt, {
 		secret: "supersecret",
 		sign: {

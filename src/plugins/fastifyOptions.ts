@@ -1,6 +1,6 @@
 import { FastifyServerOptions } from "fastify";
 
-const options :FastifyServerOptions = {
+const options: FastifyServerOptions = {
 	logger: {
 		transport: {
 			target: "pino-pretty",

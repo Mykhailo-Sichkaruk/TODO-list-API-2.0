@@ -1,5 +1,4 @@
-import { FastifyInstance, FastifyReply } from "fastify";
-import { Server } from "http";
+import { FastifyReply } from "fastify";
 import { Request } from "./prisma.js";
 import fp from "fastify-plugin";
 
@@ -9,7 +8,7 @@ interface FastifyInstance {
 	}
 }
 
-export default fp<Server>(async (fastify: FastifyInstance) => {
+export default fp(async fastify => {
 	fastify.decorate("isSubscribed", async (request: Request, reply: FastifyReply) => {
 		let id;
 

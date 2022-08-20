@@ -5,12 +5,12 @@ import prismaPlugin from "./plugins/prisma.js";
 import jwtPlugin from "./plugins/jwt.js";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerOptions from "./plugins/swaggerDocs.js";
-import { fastify, FastifyInstance } from "fastify";
+import { fastify } from "fastify";
 import fastifyOptions from "./plugins/fastifyOptions.js";
 import isTaskExists from "./plugins/isTaskExists.js";
 import autoLoad from "@fastify/autoload";
 import { fileURLToPath } from "url";
-import path, { dirname, join } from "path";
+import path, { dirname } from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

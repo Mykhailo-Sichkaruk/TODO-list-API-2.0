@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { FastifyReply } from "fastify";
-import { Request } from "../../plugins/prisma.js";
+import { Route } from "../../index.js";
 
 const prisma = new PrismaClient();
 
-const post = async (request: Request, reply: FastifyReply<any>) => {
+const post: Route = async (request, reply) => {
 	const { title } = request.body;
 	const authorId = request.user.id;
 	const list = await prisma.list.create({
@@ -14,41 +13,41 @@ const post = async (request: Request, reply: FastifyReply<any>) => {
 			subscribers: { connect: { id: authorId } },
 		},
 	});
-	return reply.code(200).send(list);
+	reply.code(200).send(list);
 };
 
-const deleteL = async (request: Request, reply: FastifyReply<any>) => {
+const deleteL: Route = async (request, reply) => {
 	const { id } = request.params;
 	// Check if user is author
 	if (request.list.authorId !== request.user.id)
 		return reply.code(403).send({ message: "You are not the author of this List to delete it" });
 		// Delete list
 	await prisma.list.delete({ where: { id } });
-	return reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully deleted` });
+	reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully deleted` });
 };
 
-const put = async (request: Request, reply: FastifyReply) => {
+const put: Route = async (request, reply) => {
 	const { id } = request.params;
 	const { title } = request.body;
 	const updatedList = await prisma.list.update({
 		where: { id },
 		data: { title },
 	});
-	return reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully updated`, list: updatedList });
+	reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully updated`, list: updatedList });
 };
 
-const getOne = async (request: Request, reply: FastifyReply<any>) => reply.code(200).send({ list: request.list });
+const getOne: Route = async (request, reply) => reply.code(200).send({ list: request.list });
 
-const getAll = async (request: Request, reply: FastifyReply) => {
+const getAll: Route = async (request, reply) => {
 	// Get all lists
 	const lists = await prisma.list.findMany({
 		where: { subscribers: { some: { id: request.user.id } } },
 		include: { tasks: true },
 	});
-	return reply.code(200).send(lists);
+	reply.code(200).send(lists);
 };
 
-const subscribe = async (request: Request, reply: FastifyReply) => {
+const subscribe: Route = async (request, reply) => {
 	const { id } = request.params;
 	const { subscriberId } = request.body;
 	// Check if subscriber is already subscribed
@@ -64,7 +63,7 @@ const subscribe = async (request: Request, reply: FastifyReply) => {
 		where: { id },
 		data: { subscribers: { connect: { id: subscriberId } } },
 	});
-	return reply.code(200).send({ message: `User ${subscriberId}${request.list.title}(${request.list.id}) successfully subscribed to` });
+	reply.code(200).send({ message: `User ${subscriberId} successfully subscribed to ${request.list.title}(${request.list.id})` });
 };
 
 export { post, deleteL, put, getOne, getAll, subscribe };

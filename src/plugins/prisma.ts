@@ -1,10 +1,13 @@
-import { FastifyInstance, FastifyRequest, FastifyTypeProviderDefault } from "fastify";
+import { FastifyRequest } from "fastify";
 import { PrismaClient, Status } from "@prisma/client";
 import fp from "fastify-plugin";
 
 declare module "fastify" {
   interface FastifyInstance {
     prisma: PrismaClient;
+  }
+  interface FastifyRequest {
+	prisma: PrismaClient;
   }
 }
 
@@ -26,7 +29,7 @@ export type Request = FastifyRequest<{
 }>
 
 
-export default fp<FastifyTypeProviderDefault>(async (fastify: FastifyInstance) => {
+export default fp(async fastify => {
 	const prisma = new PrismaClient({
 		log: ["error", "warn"],
 	});
@@ -35,7 +38,7 @@ export default fp<FastifyTypeProviderDefault>(async (fastify: FastifyInstance) =
 
 	fastify.decorate("prisma", prisma);
 
-	fastify.addHook("onClose", async (server: FastifyInstance) => {
+	fastify.addHook("onClose", async server => {
 		server.log.info("disconnecting Prisma from DB");
 		await server.prisma.$disconnect();
 	});
