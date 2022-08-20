@@ -1,14 +1,14 @@
 import { postLogin, postRegister } from "./handler.js";
 import schema from "./schema.js";
 
-const loginOptions = {
+const login = {
 	schema,
 	handler: postLogin,
 };
 
-const registerOptions = {
+const register = {
 	schema,
 	handler: postRegister,
 };
 
-export { loginOptions, registerOptions };
+export { login, register };

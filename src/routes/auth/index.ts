@@ -1,9 +1,9 @@
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
-import { loginOptions, registerOptions } from "./options";
+import * as options from "./options";
 
 const authRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-	fastify.post("/login", loginOptions);
-	fastify.post("/register", registerOptions);
+	fastify.post("/login", options.login);
+	fastify.post("/register", options.register);
 };
 
 export default authRoutes;

@@ -1,17 +1,17 @@
 import { FastifyInstance, FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
-import { deleteTaskOptions, postTaskOptions, putTaskOptions } from "./options.js";
+import * as options from "./options.js";
 
 const taskRoutes: FastifyPluginAsync = async (fastify: FastifyInstance) => {
-	// All requests in this scope must be authenticated and the user must be a subscriber of the list of the task 
+	// All requests in this scope must be authenticated, task must exist and user must be a subscriber of the list
 	fastify.addHook("onRequest", async (request: FastifyRequest, reply: FastifyReply) => {
-		await fastify.authenticate(request, reply);
+		fastify.authenticate(request, reply);
 		await fastify.isTaskExists(request, reply);
-		await fastify.isSubscribed(request, reply);
+		fastify.isSubscribed(request, reply);
 	});
 
-	fastify.post("", postTaskOptions);
-	fastify.put("/:id", putTaskOptions);
-	fastify.delete("/:id", deleteTaskOptions);
+	fastify.post("", options.post);
+	fastify.put("/:id", options.put);
+	fastify.delete("/:id", options.deleteO);
 };
 
 export default taskRoutes;

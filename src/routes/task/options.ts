@@ -1,19 +1,19 @@
 import * as handler from "./handler.js";
 import * as schema from "./schema.js";
 
-const postTaskOptions = {
+const post = {
 	schema: schema.post,
 	handler: handler.post,
 };
 
-const putTaskOptions = {
+const put = {
 	schema: schema.put,
 	handler: handler.put,
 };
 
-const deleteTaskOptions = {
+const deleteO = {
 	schema: schema.deleteT,
 	handler: handler.deleteT,
 };
 
-export { postTaskOptions, putTaskOptions, deleteTaskOptions };
+export { post, put, deleteO };
