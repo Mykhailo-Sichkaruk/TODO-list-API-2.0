@@ -1,33 +1,33 @@
-import { deleteListSchema, getAllListsSchema, getOneListSchema, postListSchema, putListSchema, subscribeToListSchema } from "./schema.js";
 import { deleteListHandler, getAllListsHandler, getOneListHandler, postListHandler, putListHandler, subscribeToListHandler } from "./handler.js";
+import * as schema from "./schema.js";
 
 const postListOptions = {
-	schema: postListSchema,
+	schema: schema.post,
 	handler: postListHandler,
 };
 
 const deleteListOptions = {
-	schema: deleteListSchema,
+	schema: schema.deleteL,
 	handler: deleteListHandler,
 };
 
 const putListOptions = {
-	schema: putListSchema,
+	schema: schema.put,
 	handler: putListHandler,
 };
 
 const getOneListOptions = {
-	schema: getOneListSchema,
+	schema: schema.getOne,
 	handler: getOneListHandler,
 };
 
 const getAllListsOptions = {
-	schema: getAllListsSchema,
+	schema: schema.getAll,
 	handler: getAllListsHandler,
 };
 
 const subscribeToListOptions = {
-	schema: subscribeToListSchema,
+	schema: schema.subscribe,
 	handler: subscribeToListHandler,
 };
 

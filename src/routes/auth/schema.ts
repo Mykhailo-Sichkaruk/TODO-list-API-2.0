@@ -1,6 +1,6 @@
-import { idSchema, tokenSchema } from "../../plugins/schema.js";
+import { id, text, token } from "../../plugins/schema.js";
 
-const loginPasswordSchema = {
+const loginPassword = {
 	title: "Login or password",
 	description: "Login or password schema",
 	type: "string",
@@ -9,52 +9,47 @@ const loginPasswordSchema = {
 	default: "admin",
 };
 
-const userSchema = {
+const user = {
 	title: "User",
 	description: "User schema",
 	type: "object",
 	properties: {
-		id: idSchema,
-		login: loginPasswordSchema,
+		id,
+		login: loginPassword,
 	},
 	required: ["id", "login"],
 };
 
-const authRequestSchema = {
+const authRequest = {
 	type: "object",
 	properties: {
-		login: loginPasswordSchema,
-		password: loginPasswordSchema,
+		login: loginPassword,
+		password: loginPassword,
 	},
 	required: ["login", "password"],
 };
 
-const authResponseSchema = {
+const authReply = {
 	200: {
 		type: "object",
 		properties: {
-			token: tokenSchema,
-			user: userSchema,
+			token,
+			user,
 		},
 		required: ["token", "user"],
 	},
 	400: {
 		type: "object",
 		properties: {
-			message: {
-				title: "Message",
-				description: "Message schema",
-				type: "string",
-				default: "Something went wrong",
-			},
+			message: text,
 		},
 		required: ["message"],
 	},
 };
 
-const authSchema = {
-	body: authRequestSchema,
-	response: authResponseSchema,
+const auth = {
+	body: authRequest,
+	response: authReply,
 	tags: ["auth"],
 	summary: "Login or register",
 	description: "Login or register",
@@ -63,4 +58,4 @@ const authSchema = {
 	produces: ["application/json"],
 };
 
-export { authSchema };
+export default auth;

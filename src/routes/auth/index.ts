@@ -1,14 +1,14 @@
 import { FastifyInstance, FastifyPluginAsync } from "fastify";
 import { postLogin, postRegister } from "./handler.js";
-import { authSchema } from "./schema.js";
+import schema from "./schema.js";
 
 const loginOptions = {
-	schema: authSchema,
+	schema,
 	handler: postLogin,
 };
 
 const registerOptions = {
-	schema: authSchema,
+	schema,
 	handler: postRegister,
 };
 

@@ -1,85 +1,80 @@
-import { deadlineSchema, defaultResponseSchema, idSchema, statusSchema, taskSchema, textSchema } from "./../../plugins/schema.js";
+import { deadline, defaultReply, id, status, task, text } from "./../../plugins/schema.js";
 
 // Post
 
-const postTaskRequestSchema = {
-	title: "PostTask",
-	description: "PostTask schema",
+const postBody = {
+	title: "post",
+	description: "post schema",
 	type: "object",
 	properties: {
-		title: textSchema,
-		body: textSchema,
-		listId: idSchema,
-		status: statusSchema,
-		deadline: deadlineSchema,
+		title: text,
+		body: text,
+		listId: id,
+		status,
+		deadline,
 	},
 	required: ["title", "body", "listId", "status"],
 };
 
-const postTaskResponseSchema = {
+const postReply = {
 	200: {
 		type: "object",
 		properties: {
-			message: textSchema,
-			task: taskSchema,
+			message: text,
+			task,
 		},
 		required: ["message", "task"],
 	},
-	400: defaultResponseSchema,
-	401: defaultResponseSchema,
-	404: defaultResponseSchema,
-	500: defaultResponseSchema,
+	400: defaultReply,
+	401: defaultReply,
+	404: defaultReply,
+	500: defaultReply,
 };
 
-const postTaskSchema = {
+const post = {
 	title: "Create task",
 	description: "Create a new list",
-	body: postTaskRequestSchema,
-	response: postTaskResponseSchema,
+	body: postBody,
+	response: postReply,
 	security: [{ bearerAuth: [] }],
 	tag: ["task"],
 };
 
 // Put
 
-const putTaskBodySchema = {
+const putBody = {
 	title: "listSchema",
 	description: "List",
 	type: "object",
 	properties: {
-		id: idSchema,
-		title: textSchema,
-		body: textSchema,
-		authorId: idSchema,
-		deadline: deadlineSchema,
-		listId: idSchema,
-		status: statusSchema,
+		id,
+		title: text,
+		body: text,
+		deadline,
+		status,
 	},
+	required: ["id"],
 };
 
-const putTaskSchema = {
-	title: "putTaskSchema",
-	description: "Update a task",
-	params: {
-		id: idSchema,
-	},
-	body: putTaskBodySchema,
-	response: defaultResponseSchema,
+const put = {
+	title: "Update task",
+	description: "Update task",
+	params: { id },
+	body: putBody,
+	response: defaultReply,
 	security: [{ bearerAuth: [] }],
 	tag: ["task"],
 };
 
 // Delete
 
-const deleteTaskSchema = {
-	title: "deleteTaskSchema",
+const deleteT = {
+	title: "deleteT",
 	description: "Delete a task",
-	params: {
-		id: idSchema,
-	},
-	response: defaultResponseSchema,
+	params: { id },
+	response: defaultReply,
 	security: [{ bearerAuth: [] }],
 	tag: ["task"],
 };
 
-export { postTaskSchema, putTaskSchema, deleteTaskSchema };
+export { post, put, deleteT };

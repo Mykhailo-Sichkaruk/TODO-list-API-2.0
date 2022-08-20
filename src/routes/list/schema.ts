@@ -1,16 +1,16 @@
-import { defaultResponseMsgSchema, defaultResponseSchema, idSchema, taskSchema, textSchema  } from "../../plugins/schema.js";
+import { defaultReply, defaultReplyMsg, id, idParam, task, text } from "../../plugins/schema.js";
 
-const listSchema = {
+const list = {
 	title: "List",
 	description: "List schema",
 	type: "object",
 	properties: {
-		id: idSchema,
-		title: textSchema,
-		authorId: idSchema,
+		id,
+		title: text,
+		authorId: id,
 		tasks: {
 			type: "array",
-			items: taskSchema,
+			items: task,
 		},
 	},
 	required: ["id", "title", "authorId", "tasks"],
@@ -18,118 +18,107 @@ const listSchema = {
 
 // Post
 
-const postListRequestSchema = {
-	title: "PostList",
-	description: "PostList schema",
+const postBody = {
+	title: "post",
+	description: "post schema",
 	type: "object",
 	properties: {
-		title: textSchema,
+		title: text,
 	},
 	required: ["title"],
 };
 
-const postListResponseSchema = {
+const postReply = {
 	200: {
 		type: "object",
 		properties: {
-			id: idSchema,
-			title: textSchema,
+			id,
+			title: text,
 		},
 		required: ["id", "title"],
 	},
-	400: defaultResponseMsgSchema,
-	401: defaultResponseMsgSchema,
-	404: defaultResponseMsgSchema,
-	500: defaultResponseMsgSchema,
+	400: defaultReplyMsg,
+	401: defaultReplyMsg,
+	404: defaultReplyMsg,
+	500: defaultReplyMsg,
 };
 
-const postListSchema = {
-	title: "PostList",
+const post = {
+	title: "post",
 	description: "Create list",
-	body: postListRequestSchema,
-	response: postListResponseSchema,
+	body: postBody,
+	response: postReply,
 	security: [ { bearerAuth: [] } ],
 	tags: ["list"],
 };
 
 // Delete
 
-const idParamSchema = {
-	name: "id",
-	in: "path",
-	description: "List id",
-	required: true,
-	schema: {
-		type: "string",
-		minLength: 15,
-		maxLength: 30,
-	},
-};
 
-const deleteListSchema = {
-	title: "DeleteList",
+const deleteL = {
+	title: "deleteL",
 	description: "Delete list by id, if you are author of list",
-	parameters: [idParamSchema],
-	response: defaultResponseSchema,
+	parameters: [idParam],
+	response: defaultReply,
 	tags: ["list"],
 	security: [ { bearerAuth: [] } ],
 };
 
 // Put
 
-const putListBodySchema = {
-	title: "PutList",
-	description: "PutList schema",
+const putBody = {
+	title: "put",
+	description: "put schema",
 	type: "object",
 	properties: {
-		title: textSchema,
+		title: text,
 	},
 	required: ["title"],
 };
 
-const putListResponseSchema = {
+const putReply = {
 	200: {
 		type: "object",
 		properties: {
-			message: textSchema,
-			list: listSchema,
+			message: text,
+			list,
 		},
 		required: ["message", "list"],
 	},
-	400: defaultResponseMsgSchema,
-	401: defaultResponseMsgSchema,
-	404: defaultResponseMsgSchema,
-	500: defaultResponseMsgSchema,
+	400: defaultReplyMsg,
+	401: defaultReplyMsg,
+	404: defaultReplyMsg,
+	500: defaultReplyMsg,
 };
 
-const putListSchema = {
-	title: "PutList",
+const put = {
+	title: "put",
 	description: "Update list by id",
-	body: putListBodySchema,
-	parameters: [idParamSchema],
-	response: putListResponseSchema,
+	body: putBody,
+	parameters: [idParam],
+	response: putReply,
 	tags: ["list"],
 	security: [ { bearerAuth: [] } ],
 };
 
 // Get one
 
-const getOneListSchema = {
-	title: "GetOneList",
+const getOne = {
+	title: "getOne",
 	description: "Get one list by id",
-	parameters: [idParamSchema],
+	parameters: [idParam],
 	response: {
 		200: {
 			type: "object",
 			properties: {
-				list: listSchema,
+				list,
 			},
 			required: ["list"],
 		},
-		400: defaultResponseMsgSchema,
-		401: defaultResponseMsgSchema,
-		404: defaultResponseMsgSchema,
-		500: defaultResponseMsgSchema,
+		400: defaultReplyMsg,
+		401: defaultReplyMsg,
+		404: defaultReplyMsg,
+		500: defaultReplyMsg,
 	},
 	tags: ["list"],
 	security: [ { bearerAuth: [] } ],
@@ -137,18 +126,18 @@ const getOneListSchema = {
 
 // Get all
 
-const getAllListsSchema = {
+const getAll = {
 	title: "GetAllLists",
 	description: "Get subscribed lists",
 	response: {
 		200: {
 			type: "array",
-			items: listSchema,
+			items: list,
 		},
-		400: defaultResponseMsgSchema,
-		401: defaultResponseMsgSchema,
-		404: defaultResponseMsgSchema,
-		500: defaultResponseMsgSchema,
+		400: defaultReplyMsg,
+		401: defaultReplyMsg,
+		404: defaultReplyMsg,
+		500: defaultReplyMsg,
 	},
 	tags: ["list"],
 	security: [ { bearerAuth: [] } ],
@@ -156,13 +145,13 @@ const getAllListsSchema = {
 
 // Subscribe
 
-const subscribeToListSchema = {
+const subscribe = {
 	title: "SubscribeList",
 	description: "Subscribe to list by id",
-	parameters: [idParamSchema],
-	response: defaultResponseSchema,
+	parameters: [idParam],
+	response: defaultReply,
 	tags: ["list"],
 	security: [ { bearerAuth: [] } ],
 };
 
-export { postListSchema, deleteListSchema, putListSchema, getOneListSchema, getAllListsSchema, subscribeToListSchema, defaultResponseSchema  };
+export { post, deleteL, put, getOne, getAll, subscribe };

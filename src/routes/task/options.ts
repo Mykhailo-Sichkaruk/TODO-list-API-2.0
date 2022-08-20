@@ -1,18 +1,18 @@
 import { deleteTaskHandler, postTaskHandler, putTaskHandler } from "./handler.js";
-import { deleteTaskSchema, postTaskSchema, putTaskSchema } from "./schema.js";
+import * as schema from "./schema.js";
 
 const postTaskOptions = {
-	schema: postTaskSchema,
+	schema: schema.post,
 	handler: postTaskHandler,
 };
 
 const putTaskOptions = {
-	schema: putTaskSchema,
+	schema: schema.put,
 	handler: putTaskHandler,
 };
 
 const deleteTaskOptions = {
-	schema: deleteTaskSchema,
+	schema: schema.deleteT,
 	handler: deleteTaskHandler,
 };
 
