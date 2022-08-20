@@ -30,7 +30,7 @@ const postTaskHandler = async (request: Request, reply: FastifyReply) => {
 			author: { connect: { id: request.user.id } },
 			list: { connect: { id: listId } },
 		} });
-	reply.code(200).send(task);
+	reply.code(200).send({ message: `Task {${task.title}} successfully created.`, task });
 };
 
 const putTaskHandler = async (request: Request, reply: FastifyReply) => {
