@@ -4,7 +4,7 @@ import { Request } from "../../plugins/prisma.js";
 
 const prisma = new PrismaClient();
 
-const postTaskHandler = async (request: Request, reply: FastifyReply) => {
+const post = async (request: Request, reply: FastifyReply) => {
 	const { listId, title, body, status } = request.body as { listId: string, title: string, body: string, deadline: string, status: Status };
 	let { deadline } = request.body;
 	// Check if list exists
@@ -33,7 +33,7 @@ const postTaskHandler = async (request: Request, reply: FastifyReply) => {
 	reply.code(200).send({ message: `Task {${task.title}} successfully created.`, task });
 };
 
-const putTaskHandler = async (request: Request, reply: FastifyReply) => {
+const put = async (request: Request, reply: FastifyReply) => {
 	const { id, title, body, status } = request.body;
 	let { deadline } = request.body;
 	// Check deadline
@@ -57,7 +57,7 @@ const putTaskHandler = async (request: Request, reply: FastifyReply) => {
 	return reply.code(200).send(updatedTask);
 };
 
-const deleteTaskHandler = async (request: Request, reply: FastifyReply) => {
+const deleteT = async (request: Request, reply: FastifyReply) => {
 	const { id } = request.params;
 	await prisma.task.delete({ where: { id } });
 	return reply.code(200).send({ message: "Task deleted" });
@@ -77,4 +77,4 @@ function checkDeadline(value: string | number | Date | undefined): Date {
 	throw new Error("Deadline must be in Date format and be in the future"); // If deadline is in the past, throw an error
 }
 
-export { postTaskHandler, putTaskHandler, deleteTaskHandler };
+export { post, put, deleteT };

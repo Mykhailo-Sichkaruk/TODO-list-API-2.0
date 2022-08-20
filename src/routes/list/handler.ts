@@ -4,7 +4,7 @@ import { Request } from "../../plugins/prisma.js";
 
 const prisma = new PrismaClient();
 
-const postListHandler = async (request: Request, reply: FastifyReply<any>) => {
+const post = async (request: Request, reply: FastifyReply<any>) => {
 	const { title } = request.body;
 	const authorId = request.user.id;
 	const list = await prisma.list.create({
@@ -17,7 +17,7 @@ const postListHandler = async (request: Request, reply: FastifyReply<any>) => {
 	return reply.code(200).send(list);
 };
 
-const deleteListHandler = async (request: Request, reply: FastifyReply<any>) => {
+const deleteL = async (request: Request, reply: FastifyReply<any>) => {
 	const { id } = request.params;
 	// Check if user is author
 	if (request.list.authorId !== request.user.id)
@@ -27,7 +27,7 @@ const deleteListHandler = async (request: Request, reply: FastifyReply<any>) => 
 	return reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully deleted` });
 };
 
-const putListHandler = async (request: Request, reply: FastifyReply<any>) => {
+const put = async (request: Request, reply: FastifyReply) => {
 	const { id } = request.params;
 	const { title } = request.body;
 	const updatedList = await prisma.list.update({
@@ -37,9 +37,9 @@ const putListHandler = async (request: Request, reply: FastifyReply<any>) => {
 	return reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully updated`, list: updatedList });
 };
 
-const getOneListHandler = async (request: Request, reply: FastifyReply<any>) => reply.code(200).send({ list: request.list });
+const getOne = async (request: Request, reply: FastifyReply<any>) => reply.code(200).send({ list: request.list });
 
-const getAllListsHandler = async (request: Request, reply: FastifyReply<any>) => {
+const getAll = async (request: Request, reply: FastifyReply) => {
 	// Get all lists
 	const lists = await prisma.list.findMany({
 		where: { subscribers: { some: { id: request.user.id } } },
@@ -48,7 +48,7 @@ const getAllListsHandler = async (request: Request, reply: FastifyReply<any>) =>
 	return reply.code(200).send(lists);
 };
 
-const subscribeToListHandler = async (request: Request, reply: FastifyReply<any>) => {
+const subscribe = async (request: Request, reply: FastifyReply) => {
 	const { id } = request.params;
 	const { subscriberId } = request.body;
 	// Check if subscriber is already subscribed
@@ -67,4 +67,4 @@ const subscribeToListHandler = async (request: Request, reply: FastifyReply<any>
 	return reply.code(200).send({ message: `User ${subscriberId}${request.list.title}(${request.list.id}) successfully subscribed to` });
 };
 
-export { postListHandler, deleteListHandler, putListHandler, getOneListHandler, getAllListsHandler, subscribeToListHandler };
+export { post, deleteL, put, getOne, getAll, subscribe };
