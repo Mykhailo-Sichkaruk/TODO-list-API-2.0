@@ -47,13 +47,11 @@ const putBody = {
 	description: "List",
 	type: "object",
 	properties: {
-		id,
 		title: text,
 		body: text,
 		deadline,
 		status,
 	},
-	required: ["id"],
 };
 
 const put = {
