@@ -41,9 +41,11 @@ const getAll: Route = async (request, reply) => {
 		where: { subscribers: { some: { id: request.user.id } } },
 		include: { tasks: {
 			select: {
+				id: true,
 				status: true,
 				body: true,
 				title: true,
+				deadline: true,
 			},
 			orderBy: { deadline: "asc" },
 		} },
