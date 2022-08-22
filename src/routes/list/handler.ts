@@ -1,4 +1,4 @@
-import { Route } from "../../index.js";
+import { Route } from "../../";
 
 const post: Route = async (request, reply) => {
 	const { title } = request.body as { title: string };

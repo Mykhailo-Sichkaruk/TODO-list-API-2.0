@@ -1,23 +1,7 @@
 import fastifyJwt, { FastifyJWTOptions } from "@fastify/jwt";
 import { FastifyReply, FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
-
-type TokenObject = {
-	id: string;
-};
-
-declare module "@fastify/jwt" {
-  interface FastifyJWT {
-    payload: TokenObject
-    user: TokenObject
-  }
-}
-
-declare module "fastify" {
-  export interface FastifyInstance {
-    authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void>;
-  }
-}
+import { TokenObject } from "..";
 
 export default fp<FastifyJWTOptions>(async fastify => {
 	fastify.register(fastifyJwt, {

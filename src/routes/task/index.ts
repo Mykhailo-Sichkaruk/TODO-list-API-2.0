@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from "fastify";
-import { Request } from "../../plugins/prisma.js";
+import { Request } from "../..";
 import * as options from "./options.js";
 
 const taskRoutes: FastifyPluginAsync = async fastify => {

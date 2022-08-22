@@ -1,23 +1,9 @@
-import { FastifyReply } from "fastify";
 import fp from "fastify-plugin";
-import { Request } from "./prisma.js";
-
-declare module "fastify"{
-	interface FastifyRequest{
-		task: {
-			title: string;
-            listId: string;
-            authorId: string;
-		}
-	}
-	interface FastifyInstance{
-		isTaskExists(request: FastifyRequest, reply: FastifyReply): Promise<void>;
-	}
-}
+import { Route } from "..";
 
 export default fp(async fastify => {
 	fastify.decorateRequest("task", null);
-	fastify.decorate("isTaskExists", async (request: Request, reply: FastifyReply) => {
+	fastify.decorate<Route>("isTaskExists", async (request, reply) => {
 		if (request.params.id && request.method !== "POST") {
 			const task = await fastify.prisma.task.findUnique({ where: { id: request.params.id }, select: { id: true, title: true, authorId: true, listId: true } });
 			if (!task) {

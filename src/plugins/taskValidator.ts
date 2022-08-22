@@ -1,13 +1,5 @@
 import fp from "fastify-plugin";
 import { Route, taskData } from "..";
-import { Request } from "./prisma";
-
-declare module "fastify" {
-	interface FastifyRequest {
-		data: taskData;
-		taskValidator(request: Request, reply: FastifyReply): Promise<void>;
-	}
-}
 
 type ValidateDeadline = (deadline: string | Date | number | undefined) => Date | undefined;
 

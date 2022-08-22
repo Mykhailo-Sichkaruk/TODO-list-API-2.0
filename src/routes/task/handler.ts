@@ -1,4 +1,4 @@
-import { PostTask, PostTaskData, Route } from "../../index.js";
+import { PostTask, PostTaskData, Route } from "../..";
 
 const post: Route = async (request, reply) => {
 	const { listId } = request.body as PostTask;

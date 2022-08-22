@@ -1,19 +1,6 @@
 import { FastifyReply } from "fastify";
 import fp from "fastify-plugin";
-import { Request } from "./prisma.js";
-
-declare module "fastify"{
-	interface FastifyRequest{
-		list: {
-			id: string;
-			title: string;
-			authorId: string;
-		}
-	}
-	interface FastifyInstance{
-		isListExists(request: FastifyRequest, reply: FastifyReply): Promise<void>;
-	}
-}
+import { Request } from "..";
 
 export default fp(async fastify => {
 	fastify.decorateRequest("list", null);

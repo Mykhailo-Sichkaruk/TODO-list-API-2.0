@@ -1,4 +1,4 @@
-import { Auth, Route } from "../../index.js";
+import { Auth, Route } from "../../";
 import bcrypt from "bcrypt";
 
 const register: Route = async (request, reply) => {

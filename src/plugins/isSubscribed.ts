@@ -1,12 +1,6 @@
 import { FastifyReply } from "fastify";
-import { Request } from "./prisma.js";
 import fp from "fastify-plugin";
-
-declare module "fastify" {
-interface FastifyInstance {
-	isSubscribed: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
-	}
-}
+import { Request } from "..";
 
 export default fp(async fastify => {
 	fastify.decorate("isSubscribed", async (request: Request, reply: FastifyReply) => {
