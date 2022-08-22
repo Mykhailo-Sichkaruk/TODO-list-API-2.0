@@ -14,20 +14,19 @@ declare module "fastify" {
 export type Request = FastifyRequest<{
 	Body: {
 		id?: string,
-		title: string,
+		title?: string,
 		subscriberId?: string,
 		listId?: string,
 		body?: string,
 		deadline?: string | Date,
 		status?: Status,
-		login: string,
-		password: string,
+		login?: string,
+		password?: string,
 	};
 	Params: {
 		id?: string;
 	}
 }>
-
 
 export default fp(async fastify => {
 	const prisma = new PrismaClient({

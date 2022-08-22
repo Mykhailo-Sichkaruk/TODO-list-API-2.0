@@ -1,8 +1,8 @@
+import { Auth, Route } from "../../index.js";
 import bcrypt from "bcrypt";
-import { Route } from "../../index.js";
 
 const register: Route = async (request, reply) => {
-	const { login, password } = request.body;
+	const { login, password } = request.body as Auth;
 	// Check if user already exists
 	let user = await request.prisma.user.findUnique({ where: { login } });
 	if (user)
@@ -20,7 +20,7 @@ const register: Route = async (request, reply) => {
 };
 
 const login: Route = async (request, reply) => {
-	const { login, password } = request.body;
+	const { login, password } = request.body as Auth;
 	// Check if user exists
 	const user = await request.prisma.user.findUnique({ where: { login } });
 	if (!user)
