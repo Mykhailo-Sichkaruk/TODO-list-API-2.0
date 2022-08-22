@@ -1,7 +1,7 @@
 import { Route } from "../../index.js";
 
 const post: Route = async (request, reply) => {
-	const { title } = request.body;
+	const { title } = request.body as { title: string };
 	const authorId = request.user.id;
 	const list = await request.prisma.list.create({
 		data: {
@@ -19,6 +19,7 @@ const deleteL: Route = async (request, reply) => {
 	if (request.list.authorId !== request.user.id)
 		return reply.code(403).send({ message: "You are not the author of this List to delete it" });
 		// Delete list
+	await request.prisma.list.update({ where: { id }, data: { tasks: { deleteMany: {} } } });
 	await request.prisma.list.delete({ where: { id } });
 	reply.code(200).send({ message: `List ${request.list.title} id:${request.list.id} successfully deleted` });
 };
