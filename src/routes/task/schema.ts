@@ -1,4 +1,4 @@
-import { deadline, defaultReply, id, status, task, text } from "./../../plugins/schema.js";
+import { deadline, defaultReply, defaultReplyMsg, id, status, task, text } from "./../../plugins/schema.js";
 
 // Post
 
@@ -25,10 +25,10 @@ const postReply = {
 		},
 		required: ["message", "task"],
 	},
-	400: defaultReply,
-	401: defaultReply,
-	404: defaultReply,
-	500: defaultReply,
+	400: defaultReplyMsg,
+	401: defaultReplyMsg,
+	404: defaultReplyMsg,
+	500: defaultReplyMsg,
 };
 
 const post = {
@@ -54,12 +54,27 @@ const putBody = {
 	},
 };
 
+const putReply = {
+	200: {
+		type: "object",
+		properties: {
+			message: text,
+			task,
+		},
+		required: ["message", "task"],
+	},
+	400: defaultReplyMsg,
+	401: defaultReplyMsg,
+	404: defaultReplyMsg,
+	500: defaultReplyMsg,
+};
+
 const put = {
 	title: "Update task",
 	description: "Update task",
 	params: { id },
 	body: putBody,
-	response: defaultReply,
+	response: putReply,
 	security: [{ bearerAuth: [] }],
 	tag: ["task"],
 };
