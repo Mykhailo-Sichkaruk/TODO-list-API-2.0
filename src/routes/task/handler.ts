@@ -1,23 +1,11 @@
-import { Status } from "@prisma/client";
-import { Route } from "../../index.js";
+import { PostTask, PostTaskData, Route } from "../../index.js";
 
 const post: Route = async (request, reply) => {
-	const { listId, title, body, status } = request.body as { listId: string, title: string, body: string, deadline: string, status: Status };
-	let { deadline } = request.body;
-	// Check deadline
-	try {
-		deadline = checkDeadline(deadline);
-	} catch (error: any) {
-		reply.code(400).send({ message: error.message });
-		return;
-	}
+	const { listId } = request.body as PostTask;
 	// Create Task
 	const task = await request.prisma.task.create({
 		data: {
-			title,
-			body,
-			deadline,
-			status,
+			...request.data as PostTaskData,
 			author: { connect: { id: request.user.id } },
 			list: { connect: { id: listId } },
 		} });
@@ -25,27 +13,14 @@ const post: Route = async (request, reply) => {
 };
 
 const put: Route = async (request, reply) => {
-	const { id, title, body, status } = request.body;
-	let { deadline } = request.body;
-	// Check deadline
-	if (deadline) {
-		try {
-			deadline = checkDeadline(deadline);
-		} catch (error: any) {
-			reply.code(400).send({ message: error.message });
-			return;
-		}
-	}
+	const { id } = request.params;
 	// Update Task
-	const updatedTask = await request.prisma.task.update({
+	const task = await request.prisma.task.update({
 		where: { id },
-		data: {
-			title,
-			deadline,
-			body,
-			status,
-		} });
-	reply.code(200).send(updatedTask);
+		data: {	...request.data },
+		select: { id: true, authorId: true, listId: true, title: true, status: true, body: true, deadline: true },
+	});
+	reply.code(200).send({ message: `Task ${task.id} was successfully updated`, task });
 };
 
 const deleteT: Route = async (request, reply) => {
@@ -53,19 +28,5 @@ const deleteT: Route = async (request, reply) => {
 	await request.prisma.task.delete({ where: { id } });
 	reply.code(200).send({ message: "Task deleted" });
 };
-
-function checkDeadline(value: string | number | Date | undefined): Date {
-	if (!value) { // Create owt deadline if not provided
-		const day = 1000 * 60 * 60 * 24; // 1000 ms * 60 s * 60 min * 24 h
-		return new Date(Date.now() + day); // 1 day from now
-	} else if (value instanceof Date) { // If deadline is a Date object, return it
-		return value;
-	}
-	const date = new Date(value); // If deadline is a string, convert it to Date object
-	if (date.getTime() > Date.now()) { // If deadline is in the future, return it
-		return date;
-	}
-	throw new Error("Deadline must be in Date format and be in the future"); // If deadline is in the past, throw an error
-}
 
 export { post, put, deleteT };

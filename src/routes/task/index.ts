@@ -1,4 +1,5 @@
 import { FastifyPluginAsync } from "fastify";
+import { Request } from "../../plugins/prisma.js";
 import * as options from "./options.js";
 
 const taskRoutes: FastifyPluginAsync = async fastify => {
@@ -9,9 +10,15 @@ const taskRoutes: FastifyPluginAsync = async fastify => {
 		await fastify.isSubscribed(request, reply);
 	});
 
-	fastify.post("", options.post);
-	fastify.put("/:id", options.put);
 	fastify.delete("/:id", options.deleteO);
+	fastify.register(async fastify => {
+		// All ruquests in this scope has extra validation
+		fastify.addHook("preHandler", async (request: Request, reply) => {
+			request.taskValidator(request, reply);
+		});
+		fastify.post("", options.post);
+		fastify.put("/:id", options.put);
+	});
 };
 
 export default taskRoutes;

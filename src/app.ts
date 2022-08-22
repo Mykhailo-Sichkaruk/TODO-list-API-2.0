@@ -11,6 +11,7 @@ import isTaskExists from "./plugins/isTaskExists.js";
 import autoLoad from "@fastify/autoload";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
+import taskValidator from "./plugins/taskValidator.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -24,6 +25,7 @@ async function main() {
 	server.register(isListExists);
 	server.register(isSubscribed);
 	server.register(isTaskExists);
+	server.register(taskValidator);
 	server.register(autoLoad, {
 		dir: path.join(__dirname, "routes"),
 		forceESM: true,
