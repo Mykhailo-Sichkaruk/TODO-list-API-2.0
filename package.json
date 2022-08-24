@@ -10,7 +10,7 @@
     "test": "jest",
     "dev": "tsnd --respawn --transpile-only --exit-child src/app.ts",
     "ts": "tsc src/app.ts",
-    "start": "tsc && node built/app.js"
+    "start": "npx prisma migrate dev --name init && tsc && node built/app.js"
   },
   "keywords": [
     "todo-list",
