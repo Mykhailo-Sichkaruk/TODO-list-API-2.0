@@ -1,4 +1,4 @@
-import { id, text, token } from "../../plugins/schema.js";
+import { defaultReplyMsg, id, token } from "../../plugins/schema.js";
 
 const loginPassword = {
 	title: "Login or password",
@@ -38,13 +38,8 @@ const authReply = {
 		},
 		required: ["token", "user"],
 	},
-	400: {
-		type: "object",
-		properties: {
-			message: text,
-		},
-		required: ["message"],
-	},
+	400: defaultReplyMsg,
+	500: defaultReplyMsg,
 };
 
 const auth = {
@@ -53,7 +48,6 @@ const auth = {
 	tags: ["auth"],
 	summary: "Login or register",
 	description: "Login or register",
-	operationId: "auth",
 	consumes: ["application/json"],
 	produces: ["application/json"],
 };

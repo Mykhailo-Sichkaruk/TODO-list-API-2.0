@@ -40,8 +40,9 @@ const openapiOptions = {
 	consumes: ["application/json"],
 	produces: ["application/json"],
 	tags: [
-		{ name: "auth", description: "AAAA related end-points" },
-		{ name: "list", description: "Code related end-points" },
+		{ name: "auth", description: "Login and register" },
+		{ name: "list", description: "CRUD + subscribe" },
+		{ name: "task", description: "CRUD" },
 	],
 	host: `localhost:${process.env.PORT}`,
 };

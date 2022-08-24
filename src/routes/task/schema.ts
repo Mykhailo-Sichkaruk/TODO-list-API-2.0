@@ -37,7 +37,7 @@ const post = {
 	body: postBody,
 	response: postReply,
 	security: [{ bearerAuth: [] }],
-	tag: ["task"],
+	tags: ["task"],
 };
 
 // Put
@@ -76,7 +76,7 @@ const put = {
 	body: putBody,
 	response: putReply,
 	security: [{ bearerAuth: [] }],
-	tag: ["task"],
+	tags: ["task"],
 };
 
 // Delete
@@ -87,7 +87,7 @@ const deleteT = {
 	params: { id },
 	response: defaultReply,
 	security: [{ bearerAuth: [] }],
-	tag: ["task"],
+	tags: ["task"],
 };
 
 export { post, put, deleteT };

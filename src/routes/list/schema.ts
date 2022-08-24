@@ -19,8 +19,8 @@ const list = {
 // Post
 
 const postBody = {
-	title: "post",
-	description: "post schema",
+	title: "Create List body",
+	description: "Body to create a new list",
 	type: "object",
 	properties: {
 		title: text,
@@ -44,8 +44,8 @@ const postReply = {
 };
 
 const post = {
-	title: "post",
-	description: "Create list",
+	title: "Create list",
+	description: "Create a new list",
 	body: postBody,
 	response: postReply,
 	security: [ { bearerAuth: [] } ],
