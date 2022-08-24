@@ -1,6 +1,6 @@
 # TODO List Api v2.0
 
-![](https://img.shields.io/badge/Node-16-green?style=plastic) ![](https://img.shields.io/badge/Fastify-4.3-red?style=plastic) ![](https://img.shields.io/npm/v/chalk?style=plastic) ![](https://img.shields.io/badge/Open--API-3.0-brightgreen?style=plastic)
+![](https://img.shields.io/badge/Node-16-green?style=plastic) ![](https://img.shields.io/badge/Fastify-4.3-red?style=plastic) ![](https://img.shields.io/badge/TypeScript-4.7.4-blue?style=plastic) ![](https://img.shields.io/badge/Open--API-3.0-brightgreen?style=plastic)
 ![ ](https://img.shields.io/badge/Prisma-4.1-blue?style=plastic)  ![ ](https://img.shields.io/badge/PostgeSQL-4.1-blueviolet?style=plastic)
 
 ---
@@ -35,6 +35,29 @@ Table of Contents
 - [Tech details](#tech-details)
 
 ## Project structure  
+
+```js
+/*
+  ├──[plugins] - incapsulated functionality of app and optinos
+  ├──[routes]
+  │  ├──[auth]
+  │  │  │── │handler.ts│ - handlers for login and register
+  │  │  │── │index.ts│   - register routes with options
+  │  │  │── │options.ts│ - put together handlers and schema
+  │  │  └── │chema.ts│   - validation and serialization 
+  │  ├──[list]
+  │  │  │── │handler.ts│ - CRUD + /subscribe handlers
+  │  │  │── │index.ts│   - register routes with options
+  │  │  │── │options.ts│ - put together handlers and schema
+  │  │  └── │chema.ts│   - validation and serialization 
+  │  ├──[task]
+  │  │  │── │handler.ts│ - CRUD handlers
+  │  │  │── │index.ts│   - register routes with options
+  │  │  │── │options.ts│ - put together handlers and schema
+  │  │  └── │chema.ts│   - validation and serialization 
+  └──│app.ts│ - register plugins, routes and start server 
+*/
+```
 
 ## Prerequirements
 
