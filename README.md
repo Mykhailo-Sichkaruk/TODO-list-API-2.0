@@ -38,6 +38,7 @@ Table of Contents
 
 ```js
 /*
+  [src]
   ├──[plugins] - incapsulated functionality of app and optinos
   ├──[routes]
   │  ├──[auth]
@@ -50,12 +51,18 @@ Table of Contents
   │  │  │── │index.ts│   - register routes with options
   │  │  │── │options.ts│ - put together handlers and schema
   │  │  └── │chema.ts│   - validation and serialization 
-  │  ├──[task]
-  │  │  │── │handler.ts│ - CRUD handlers
-  │  │  │── │index.ts│   - register routes with options
-  │  │  │── │options.ts│ - put together handlers and schema
-  │  │  └── │chema.ts│   - validation and serialization 
-  └──│app.ts│ - register plugins, routes and start server 
+  │  └──[task]
+  │     │── │handler.ts│ - CRUD handlers
+  │     │── │index.ts│   - register routes with options
+  │     │── │options.ts│ - put together handlers and schema
+  │     └── │chema.ts│   - validation and serialization 
+  │
+  │──│server.ts│ - set options, register plugins, routes
+  └──│app.ts│ - import and start server
+  --------------------------------------------------------
+  [test]
+  └──│index.ts│ - start all tests
+  
 */
 ```
 
