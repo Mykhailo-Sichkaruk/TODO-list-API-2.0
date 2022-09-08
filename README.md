@@ -3,6 +3,8 @@
 ![](https://img.shields.io/badge/Node-16-green?style=plastic) ![](https://img.shields.io/badge/Fastify-4.3-red?style=plastic) ![](https://img.shields.io/badge/TypeScript-4.7.4-blue?style=plastic) ![](https://img.shields.io/badge/Open--API-3.0-brightgreen?style=plastic)
 ![ ](https://img.shields.io/badge/Prisma-4.1-blue?style=plastic)  ![ ](https://img.shields.io/badge/PostgeSQL-4.1-blueviolet?style=plastic)
 
+This is a simple TODO list API built with Fastify. It allows basic CRUD operations on a TODO List and Tasks + subscribe User to other's List.
+
 ---
 
 Rewriten [TODO list Api v1.0](https://github.com/Mykhailo-Sichkaruk/TODO-list-api) with `new features`:
