@@ -20,8 +20,8 @@
   "author": "Mykhailo Sichkaruk",
   "license": "MIT",
   "dependencies": {
+    "@fastify/jwt": "^6.7.1",
     "@fastify/autoload": "^5.7.1",
-    "@fastify/jwt": "^6.3.2",
     "@fastify/swagger": "^7.4.1",
     "@prisma/client": "^4.14.0",
     "bcrypt": "^5.0.1",
