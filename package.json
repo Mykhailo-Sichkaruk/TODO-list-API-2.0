@@ -24,7 +24,7 @@
     "@fastify/autoload": "^5.7.1",
     "@fastify/swagger": "^7.4.1",
     "@prisma/client": "^4.14.0",
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^5.1.0",
     "fastify": "^4.10.2",
     "fastify-plugin": "^4.0.0",
     "pino-pretty": "^9.4.0"
