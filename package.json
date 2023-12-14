@@ -27,7 +27,7 @@
     "bcrypt": "^5.0.1",
     "fastify": "^4.10.2",
     "fastify-plugin": "^4.0.0",
-    "pino-pretty": "^9.4.0"
+    "pino-pretty": "^10.3.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
